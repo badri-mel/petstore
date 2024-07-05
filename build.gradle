@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.openapi.generator' version '7.7.0'
+}
+
+group 'com.badri.openapi'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
+    implementation 'org.springframework.boot:spring-boot-gradle-plugin:3.0.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$rootDir/src/main/resources/api.yaml".toString()
+    outputDir = "$buildDir/generated"
+    apiPackage = "com.badri.openapi.petstore.api"
+    modelPackage = "com.badri.openapi.petstore.model"
+    invokerPackage = "com.badri.openapi.petstore.invoker"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+}
+
+//tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+//    outputs.upToDateWhen { false }
+//}
+
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/generated/src/main/java"
+        }
+    }
+}
+
+compileJava.dependsOn openApiGenerate
+
+test {
+    useJUnitPlatform()
+}
