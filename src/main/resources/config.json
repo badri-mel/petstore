@@ -1,0 +1,8 @@
+{
+  "modelPackage": "com.badri.openapi.petstore.model",
+  "apiPackage": "com.badri.openapi.petstore.api",
+  "invokerPackage": "com.badri.openapi.petstore.invoker",
+  "dateLibrary": "java8",
+  "hideGenerationTimestamp": true,
+  "useJakartaEe8": true
+}

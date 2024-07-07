@@ -16,13 +16,17 @@ repositories {
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
     implementation 'org.springframework.boot:spring-boot-gradle-plugin:3.0.0'
     swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.47'  // or Swagger Codegen V3
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation "io.swagger.core.v3:swagger-annotations:2.1.10"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
@@ -36,6 +40,7 @@ swaggerSources {
             outputDir = file("$buildDir/generated".toString())
             configFile = file("$rootDir/src/main/resources/config.json".toString()) // optional
             outputDir = file("$buildDir/generated".toString())
+            templateDir = file("$rootDir/src/main/resources/templates".toString()) // optional
         }
     }
 }
