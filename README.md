@@ -3,14 +3,14 @@
 This project is a Spring Boot application that provides a REST API 
 for managing a pet store. 
 
-* The API is generated using OpenAPI Generator based on the `api.yaml` specification.
+* The API is generated using Swagger Generator based on the `api.yaml` specification.
 * The project aims to write a template to generate builder for all the generated classes automatically.
 
 ## Project Structure
 
 - **src/main/resources/api.yaml**: OpenAPI specification file.
 - **build.gradle**: Gradle build configuration.
-- **generated/**: Directory where the OpenAPI Generator outputs the generated code.
+- **generated/**: Directory where the Swagger Generator outputs the generated code.
 
 ## Getting Started
 
@@ -27,3 +27,7 @@ for managing a pet store.
    cd petstore-api
    ```
 
+2. Generate the models 
+   ```sh
+   ./gradlew generateSwaggerCode
+   ```

@@ -3,7 +3,7 @@ plugins {
 
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'org.openapi.generator' version '7.7.0'
+    id 'org.hidetake.swagger.generator' version '2.19.2'
 }
 
 group 'com.badri.openapi'
@@ -21,28 +21,24 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
     implementation 'org.springframework.boot:spring-boot-gradle-plugin:3.0.0'
-
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.47'  // or Swagger Codegen V3
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-openApiGenerate {
-    generatorName = "spring"
-    inputSpec = "$rootDir/src/main/resources/api.yaml".toString()
-    outputDir = "$buildDir/generated"
-    apiPackage = "com.badri.openapi.petstore.api"
-    modelPackage = "com.badri.openapi.petstore.model"
-    invokerPackage = "com.badri.openapi.petstore.invoker"
-    configOptions = [
-            dateLibrary: "java8"
-    ]
+swaggerSources {
+    petstore {
+        inputFile = file("$rootDir/src/main/resources/api.yaml".toString())
+        code {
+            language = 'spring'
+            components = ['model','api']
+            outputDir = file("$buildDir/generated".toString())
+            configFile = file("$rootDir/src/main/resources/config.json".toString()) // optional
+            outputDir = file("$buildDir/generated".toString())
+        }
+    }
 }
-
-//tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
-//    outputs.upToDateWhen { false }
-//}
-
 
 sourceSets {
     main {
@@ -52,7 +48,7 @@ sourceSets {
     }
 }
 
-compileJava.dependsOn openApiGenerate
+compileJava.dependsOn generateSwaggerCode
 
 test {
     useJUnitPlatform()
